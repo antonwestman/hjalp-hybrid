@@ -1,4 +1,38 @@
-angular.module('starter.controllers', [])
+angular.module('hjalp-hybrid.controllers', [])
+
+.controller('LoginCtrl', function($scope, $state, $ionicPopup, $auth, $ionicHistory, $ionicLoading) {
+  $scope.data = {};
+
+  $scope.$on('auth:registration-email-success', function(ev, message) {
+      alert("A registration email was sent to " + message.email);
+  });
+
+  $scope.$on('auth:invalid', function(ev, message) {
+    $state.go('login');
+  });
+
+  $scope.login = function(data){
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    $auth.submitLogin({email: data.username, password: data.password})
+      .then(function(resp) {
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true
+        });
+        $ionicLoading.hide();
+        $state.go('tab.dash')
+      })
+      .catch(function(resp) {
+        $ionicLoading.hide();
+        var alertPopup = $ionicPopup.alert({
+          title: "Login failed!",
+          template: "Please check your credentials!"
+        });
+      });
+  };
+})
 
 .controller('DashCtrl', function($scope) {})
 

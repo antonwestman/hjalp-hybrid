@@ -1,11 +1,17 @@
-// Ionic Starter App
+// Ionic hjalp-hybrid App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// 'hjalp-hybrid' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services'])
+// 'hjalp-hybrid.services' is found in services.js
+// 'hjalp-hybrid.controllers' is found in controllers.js
+angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.controllers', 'hjalp-hybrid.services', 'ng-token-auth'])
+
+.config(function($authProvider) {
+  $authProvider.configure({
+      apiUrl: 'http://hjalp.herokuapp.com'
+  });
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -31,11 +37,23 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('login', {
+    url: '/login',
+    cache: false,
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    resolve: {
+      auth: function($auth) {
+        return $auth.validateUser();
+      }
+    }
   })
 
   // Each tab has its own nav history stack:
@@ -80,6 +98,6 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

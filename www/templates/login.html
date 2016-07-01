@@ -1,0 +1,21 @@
+<ion-view hide-back-button="true" name="login-view" title="Sign in" class="black">
+  <ion-nav-buttons side="left">
+    <a class="button button-clear" nav-transition="ios" nav-direction="exit" href="#/">Avbryt</a>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" nav-transition="ios" nav-direction="exit" ng-click="login(data)">Done</button>
+  </ion-nav-buttons>
+  <ion-content class="padding has-header">
+    <div class="form">
+      <div class="list list-inset">
+        <label class="item item-input">
+            <input type="text" placeholder="Username" ng-model="data.username">
+        </label>
+        <label class="item item-input">
+            <input type="password" placeholder="Password" ng-model="data.password">
+        </label>
+      </div>
+      <p> Don't have an account yet? <a href="#/register">Sign up</a></p>
+    </div>
+  </ion-content>
+</ion-view>
