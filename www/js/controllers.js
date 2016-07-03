@@ -32,6 +32,22 @@ angular.module('hjalp-hybrid.controllers', [])
         });
       });
   };
+  $scope.signUp = function(data){
+    $auth.submitRegistration({email: data.username, password: data.password, password_confirmation: data.password})
+      .then(function(resp) {
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true
+        });
+        $state.go('start')
+      })
+      .catch(function(resp) {
+        var alertPopup = $ionicPopup.alert({
+          title: "Sign up failed!",
+          template: resp.data.errors.full_messages
+        });
+      });
+  };
 })
 
 .controller('DashCtrl', function($scope) {})

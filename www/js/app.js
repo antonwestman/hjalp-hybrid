@@ -9,7 +9,10 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
 
 .config(function($authProvider) {
   $authProvider.configure({
-      apiUrl: 'http://hjalp.herokuapp.com'
+    apiUrl: 'http://hjalp.herokuapp.com',
+    confirmationSuccessUrl: 'http://hjalp.herokuapp.com'
+    // apiUrl: 'http://hjalp.com:3000',
+    // confirmationSuccessUrl: 'http://hjalp.com:3000'
   });
 })
 
@@ -37,10 +40,22 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('start',{
+    url: '/',
+    cahche: false,
+    templateUrl: 'templates/start.html',
+  })
+
   .state('login', {
     url: '/login',
     cache: false,
     templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+  .state('register', {
+    url: '/register',
+    cache: false,
+    templateUrl: 'templates/register.html',
     controller: 'LoginCtrl'
   })
 
@@ -98,6 +113,5 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
-
+  $urlRouterProvider.otherwise('/');
 });
