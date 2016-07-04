@@ -17,7 +17,8 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
 })
 
 .config(function(RestangularProvider) {
-  RestangularProvider.setBaseUrl('http://hjalp.com:3000');
+  RestangularProvider.setBaseUrl('http://hjalp.herokuapp.com');
+  // RestangularProvider.setBaseUrl('http://hjalp.com:3000');
 })
 
 .run(function($ionicPlatform) {
