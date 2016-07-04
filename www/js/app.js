@@ -5,15 +5,19 @@
 // the 2nd parameter is an array of 'requires'
 // 'hjalp-hybrid.services' is found in services.js
 // 'hjalp-hybrid.controllers' is found in controllers.js
-angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.controllers', 'hjalp-hybrid.services', 'ng-token-auth'])
+angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.controllers', 'hjalp-hybrid.services', 'ng-token-auth', 'restangular'])
 
 .config(function($authProvider) {
   $authProvider.configure({
-    apiUrl: 'http://hjalp.herokuapp.com',
-    confirmationSuccessUrl: 'http://hjalp.herokuapp.com'
-    // apiUrl: 'http://hjalp.com:3000',
-    // confirmationSuccessUrl: 'http://hjalp.com:3000'
+    // apiUrl: 'http://hjalp.herokuapp.com',
+    // confirmationSuccessUrl: 'http://hjalp.herokuapp.com'
+    apiUrl:                 'http://hjalp.com:3000',
+    confirmationSuccessUrl: 'http://hjalp.com:3000',
   });
+})
+
+.config(function(RestangularProvider) {
+  RestangularProvider.setBaseUrl('http://hjalp.com:3000');
 })
 
 .run(function($ionicPlatform) {
@@ -64,9 +68,12 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html',
+    controller: "MainController",
     resolve: {
-      auth: function($auth) {
-        return $auth.validateUser();
+      user: function($auth) {
+        return $auth.validateUser().then(function(user){
+          return user;
+        });
       }
     }
   })
@@ -92,15 +99,6 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
 
   .state('tab.account', {
     url: '/account',
@@ -113,5 +111,5 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/login');
 });

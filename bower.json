@@ -6,6 +6,8 @@
     "ionic-platform-web-client": "^0.7.1"
   },
   "dependencies": {
-    "ng-token-auth": "^0.0.29"
+    "ng-token-auth": "^0.0.29",
+    "restangular": "^1.5.2",
+    "lodash": "^4.13.1"
   }
 }

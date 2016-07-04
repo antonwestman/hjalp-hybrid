@@ -50,25 +50,64 @@ angular.module('hjalp-hybrid.controllers', [])
   };
 })
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+.controller('MainController', function($auth, user, $scope) {
+  $scope.user = user;
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('DashCtrl', function($scope) {})
+
+.controller('ChatsCtrl', function($scope, $state, $timeout, $ionicScrollDelegate, MessageService) {
+
+  $scope.messages = []
+
+
+  loadMessages = function(){
+    MessageService.getMessages($scope.user.id).then(function(resp){
+      $scope.messages = resp;
+    })
+  }
+  setInterval( loadMessages, 30000 );
+  loadMessages();
+
+
+  $scope.hideTime = true;
+
+  var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
+
+  // For ionic view to work. Remove on build
+  if (isIOS) {
+    cordova.plugins.Keyboard.disableScroll(true);
+  }
+
+  $scope.sendMessage = function(){
+    message = {userId: $scope.user.id, createdAt: new Date(), text: $scope.data.message}
+    $scope.messages.push(message);
+    delete $scope.data.message;
+    MessageService.sendMessage(message).then(function(resp){
+      $ionicScrollDelegate.scrollTop(true);
+    });
+  }
+
+  $scope.inputUp = function() {
+    if (isIOS) $scope.data.keyboardHeight = 216;
+    $timeout(function() {
+      $ionicScrollDelegate.scrollBottom(true);
+    }, 300);
+
+  };
+
+  $scope.inputDown = function() {
+    if (isIOS) $scope.data.keyboardHeight = 0;
+    $ionicScrollDelegate.resize();
+  };
+
+  $scope.closeKeyboard = function() {
+    if (isIOS) cordova.plugins.Keyboard.close();
+  };
+
+
+  $scope.data = {};
+  $scope.myId = $scope.user.id;
 })
 
 .controller('AccountCtrl', function($scope) {
