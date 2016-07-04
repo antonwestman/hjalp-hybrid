@@ -9,10 +9,10 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
 
 .config(function($authProvider) {
   $authProvider.configure({
-    // apiUrl: 'http://hjalp.herokuapp.com',
-    // confirmationSuccessUrl: 'http://hjalp.herokuapp.com'
-    apiUrl:                 'http://hjalp.com:3000',
-    confirmationSuccessUrl: 'http://hjalp.com:3000',
+    apiUrl: 'http://hjalp.herokuapp.com',
+    confirmationSuccessUrl: 'http://hjalp.herokuapp.com'
+    // apiUrl:                 'http://hjalp.com:3000',
+    // confirmationSuccessUrl: 'http://hjalp.com:3000',
   });
 })
 
