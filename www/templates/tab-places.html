@@ -1,0 +1,15 @@
+<ion-view view-title="Places">
+  <ion-content>
+    <ion-list>
+      <ion-item collection-repeat="place in places">
+      <div class="list">
+        <div class="item item-thumbnail-left">
+          <img ng-src="{{place.image_url}}">
+          <h2>{{place.name}} - {{place.rating}}</h2>
+          <blockquote>{{place.description}}</blockquote>
+        </div>
+      </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

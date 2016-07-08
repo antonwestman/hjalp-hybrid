@@ -19,6 +19,7 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
 .config(function(RestangularProvider) {
   RestangularProvider.setBaseUrl('http://hjalp.herokuapp.com');
   // RestangularProvider.setBaseUrl('http://hjalp.com:3000');
+  RestangularProvider.setFullResponse(true);
 })
 
 .run(function($ionicPlatform) {
@@ -101,12 +102,12 @@ angular.module('hjalp-hybrid', ['ionic','ionic.service.core', 'hjalp-hybrid.cont
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.places', {
+    url: '/places',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-places': {
+        templateUrl: 'templates/tab-places.html',
+        controller: 'PlacesCtrl'
       }
     }
   });

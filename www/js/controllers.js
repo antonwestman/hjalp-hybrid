@@ -110,8 +110,8 @@ angular.module('hjalp-hybrid.controllers', [])
   $scope.myId = $scope.user.id;
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('PlacesCtrl', function($scope, Restangular) {
+  Restangular.all('food_places').getList().then(function(response){
+    $scope.places = response.data
+  })
 });
